@@ -1,0 +1,25 @@
+name: BLAX Scheduled Bots
+
+on:
+  schedule:
+    - cron: "0 * * * *"    # every hour — Telegram report + Discord fan tracker
+    - cron: "* * * * *"    # every minute — Discord shift monitor (login/logout)
+  workflow_dispatch:          # manual trigger from GitHub UI
+
+jobs:
+
+  hourly-report:
+    if: github.event_name == "workflow_dispatch" || (github.event.schedule == "0 * * * *")
+    runs-on: ubuntu-latest
+    steps:
+      - name: Telegram Hourly Report
+        run: curl -sf https://blaxcrm.org/.netlify/functions/telegram-report
+      - name: Discord Fan Tracker Update
+        run: curl -sf https://blaxcrm.org/.netlify/functions/discord-notify
+
+  shift-monitor:
+    if: github.event_name == "workflow_dispatch" || (github.event.schedule == "* * * * *")
+    runs-on: ubuntu-latest
+    steps:
+      - name: Discord Shift Monitor
+        run: curl -sf https://blaxcrm.org/.netlify/functions/discord-monitor
