@@ -13,3 +13,5 @@ jobs:
         run: curl -sf https://blaxcrm.org/.netlify/functions/telegram-report
       - name: Discord Fan Tracker
         run: curl -sf https://blaxcrm.org/.netlify/functions/discord-notify
+      - name: Discord Shift Monitor (backup)
+        run: curl -sf https://blaxcrm.org/.netlify/functions/discord-monitor
